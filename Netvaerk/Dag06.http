@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:5200
+
+### A0 Kontrol: 200 og status ok
+GET {{baseUrl}}/health
+
+### A1 Bogliste: 200 og JSON
+GET {{baseUrl}}/api/books
+
+### A2 En bog: 200
+GET {{baseUrl}}/api/books/1
+
+### B1 Opret: 201, id og Location. Send kun én gang før kontrollen.
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+
+{
+  "title": "Containerbogen",
+  "author": "Holdet",
+  "pages": 120
+}
+
+### B2 Ugyldigt input: 400 og ingen ny bog
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+
+{
+  "title": "",
+  "author": "Holdet",
+  "pages": 0
+}
+
+### C0 Ukendt path: 404 fra et kørende API
+GET {{baseUrl}}/api/ukendt
